@@ -10,7 +10,7 @@ public class Client {
 	public static void main(String args[]) throws Exception {
 		System.out.println("Connecting..");
 		
-		Socket sc = new Socket("fjey.kro.kr", 1000);
+		Socket sc = new Socket("127.0.0.1", 1000);
 		
 		ReceiveThread r_Thread = new ReceiveThread(sc);
 		SendThread s_Thread = new SendThread(sc);

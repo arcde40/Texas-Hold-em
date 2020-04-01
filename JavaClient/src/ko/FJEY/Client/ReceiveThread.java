@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ReceiveThread extends Thread{
 	
@@ -19,6 +20,9 @@ public class ReceiveThread extends Thread{
 			BufferedReader br = new BufferedReader(new InputStreamReader(sc.getInputStream()));
 			
 			String s;
+			ArrayList<String> personalCardList = new ArrayList<String>();
+			ArrayList<String> shareCardList = new ArrayList<String>();
+			
 			while(true) {
 				s = br.readLine();
 				switch (s.split(":")[0]) {
@@ -30,57 +34,64 @@ public class ReceiveThread extends Thread{
 					
 					switch (str1[0].charAt(0)) {
 					case 'c':
-						System.out.print("♣");
+						personalCardList.add("♣"+ str1[0].substring(1));
 						break;
 					case 'h':
-						System.out.print("♥");
+						personalCardList.add("♥"+ str1[0].substring(1));
 						break;
 					case 's':
-						System.out.print("♠");
+						personalCardList.add("♠"+ str1[0].substring(1));
 						break;
 					case 'd':
-						System.out.print("◆");
+						personalCardList.add("◆"+ str1[0].substring(1));
 						break;
 					}
-					System.out.print(str1[0].substring(1)+",");
 					
 					switch (str1[1].charAt(0)) {
 					case 'c':
-						System.out.print("♣");
+						personalCardList.add("♣"+ str1[1].substring(1));
 						break;
 					case 'h':
-						System.out.print("♥");
+						personalCardList.add("♥"+ str1[1].substring(1));
 						break;
 					case 's':
-						System.out.print("♠");
+						personalCardList.add("♠"+ str1[1].substring(1));
 						break;
 					case 'd':
-						System.out.print("◆");
+						personalCardList.add("◆"+ str1[1].substring(1));
 						break;
 					}
-					System.out.println(str1[1].substring(1));
+					System.out.println("P["+personalCardList.get(0)+","+personalCardList.get(1)+"]");
+					//앞에 P는 개인(Personal)을 뜻함 (개인 카드라고 쉽게 파악하기 위해서 씀)
 					
 					break;
+					
 				case "GAMEINFO_GIVE_ONE":
 					System.out.println("한장의 공유카드가 주어졌습니다.");
 					
 					Arr = s.split(":");
 					str1 = Arr[1].split(",");
+					
 					switch (str1[0].charAt(0)) {
 					case 'c':
-						System.out.print("♣");
+						shareCardList.add("♣"+ str1[0].substring(1));
 						break;
 					case 'h':
-						System.out.print("♥");
+						shareCardList.add("♥"+ str1[0].substring(1));
 						break;
 					case 's':
-						System.out.print("♠");
+						shareCardList.add("♠"+ str1[0].substring(1));
 						break;
 					case 'd':
-						System.out.print("◆");
+						shareCardList.add("◆"+ str1[0].substring(1));
 						break;
 					}
-					System.out.println(str1[0].substring(1));
+					System.out.println("S"+shareCardList);
+					// 앞에 S는 공유(share)을 뜻함 (공유 카드라고 쉽게 파악하기 위해서 씀)
+					break;
+					
+				case "GAMEINFO_BATTING":
+					System.out.println("배팅할 차례입니다.");
 					break;
 				case "GAMEINFO_OPEN_CARD":
 					System.out.println("패를 공개합니다.");
@@ -97,8 +108,8 @@ public class ReceiveThread extends Thread{
 				}
 				
 				
-				/* if(s == null) { System.out.println("서버와의 연결이 끊어졌습니다."); break; }else { }*/
-				//System.out.println(s);
+				/* if(s == null) { System.out.println("서버와의 연결이 끊어졌습니다."); break; }else { }
+				System.out.println(s); */
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
