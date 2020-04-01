@@ -58,7 +58,7 @@ public class GameManager {
 		}
 		
 		getCombination(player[0], table);
-		getCombination(player[1], table);
+		//getCombination(player[1], table);
 
 	}
 	
